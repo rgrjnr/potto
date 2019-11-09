@@ -2,15 +2,13 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-const ObjectId = mongoose.Schema.Types.ObjectId
-
 let userSchema = mongoose.Schema({
     email: { type: String, required: true },
 
-    name: String,
+    fullname: String,
     hash: String,
     salt: String,
-    permissions: { type: String, default: 'client:master' },
+    permissions: { type: String, default: 'default' },
     created_on: { type: Date, default: Date.now },
     
 });
@@ -28,7 +26,7 @@ userSchema.methods.validatePassword = function(password) {
 userSchema.methods.generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date(today);
-  expirationDate.setDate(today.getDate() + 60);
+  expirationDate.setDate(today.getDate() + 1);
 
   return jwt.sign({
     email: this.email,

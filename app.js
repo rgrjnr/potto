@@ -32,7 +32,11 @@ require('./config/passport')
 
 let users   = require('./routes/users');
 let events  = require('./routes/events');
+let invites  = require('./routes/invites');
+let companies  = require('./routes/companies');
+app.use('/companies', companies);
 app.use('/events', events);
+app.use('/invites', invites);
 app.use('/users', users);
 
 function verifyToken(req, res, next) {

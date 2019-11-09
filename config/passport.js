@@ -11,9 +11,12 @@ passport.use(new LocalStrategy({
   User.findOne({ email })
     .then((user) => {
       if(!user || !user.validatePassword(password)) {
+        console.log("deu ruim");
         return done(null, false, { errors: { 'email or password': 'is invalid' } });
       }
 
       return done(null, user);
     }).catch(done);
+
+    return { error: "unknown" }
 }));
