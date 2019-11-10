@@ -10,6 +10,9 @@ let productSchema = mongoose.Schema({
     date: {type: Date},
     currency: { type: String, default: 'BRL'},
     price: { type: Number, default: 0 },
+    quantity: { type: Number, default: 0 },
+    sold: { type: Number, default: 0 },
+    visible: { type: Boolean, default: true },
 });
 
 let eventSchema = mongoose.Schema({
@@ -29,8 +32,13 @@ let eventSchema = mongoose.Schema({
         address: { type: String },
     },
     permissions: [{
-        user: {type: ObjectId, required: true},
+        user: { type: ObjectId, required: true },
         role: { type: String, required: true, default: 'watcher' },
+    }],
+    questions: [{
+        title: { type: String, required: true },
+        type: { type: String, required: true, enum: ['single', 'multiple', 'text']},
+        options: [String],
     }]
 });
 

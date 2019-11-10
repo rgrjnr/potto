@@ -26,13 +26,12 @@ router.get('/', auth.required, (req, res) => {
 router.get('/:slug', auth.optional, (req, res) => {
 
     let slug = req.params.slug;
-    let companies;
 
     Event.findOne({ slug: slug }, async (err, event) => {
         //Checa por erros
         if (err) { console.log(err); return res.status(404).json({ errors: "Not Found" }); }
-
-        Company.find({event: event.id}, (err, companies) => {
+        if (!event) { return res.status(404).json({ errors: "Not Found" }); }
+        Company.find({event: event._id}, (err, companies) => {
             console.log(companies);
             event.companies = companies;
             res.json({event, companies});
@@ -43,7 +42,7 @@ router.get('/:slug', auth.optional, (req, res) => {
 });
 
 
-
+// CREATE EVENT
 router.post('/', [
     auth.required,
     check('event.title').isLength({ min: 5 }),

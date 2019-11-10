@@ -22,7 +22,6 @@ router.post('/authenticate', [
     }
 
     return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-        console.log(info);
 
         if (err) {
             return res.json(err);

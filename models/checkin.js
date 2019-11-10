@@ -4,7 +4,9 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 let checkinSchema = mongoose.Schema({
     device: { type: ObjectId, required: true},
-    user: { type: ObjectId, required: true},
+    company: { type: ObjectId, required: true},
+    event: { type: ObjectId, required: true},
+    ticket: { type: ObjectId, required: true},
     created_on: { type: Date, default: Date.now },
 });
 

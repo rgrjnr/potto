@@ -37,7 +37,7 @@ router.post('/', [
     const { payload: { id, email } } = req;
 
     Invite.findById(company.invite, (err, invite) => {
-        console.log(invite);
+
         //Checa por erros
         if (err) { console.log(err);  return res.status(401).json({ errors: "Not Authorized" }); }
         
