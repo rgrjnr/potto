@@ -26,8 +26,19 @@ app.use(session({
 }));
 
 // ROUTES
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+ 
+  next();
+});
+
+app.get('/', (req, res) => {
+  return res.send('API Ready');
+})
 require('./config/passport')
 
 let users   = require('./routes/users');
