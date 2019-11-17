@@ -3,6 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const engines = require('consolidate');
+
 
 // DATABASE INIT
 mongoose.connect('mongodb://localhost/potto');
@@ -16,6 +18,11 @@ db.on('error', (err) => console.log(err));
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.engine('hbs', engines.handlebars)
+app.set( 'views', path.join(__dirname, 'views') )
+app.set('view engine', 'hbs')
+
+
 
 // SESSION MIDDLEWARE
 app.use(session({
@@ -26,7 +33,7 @@ app.use(session({
 }));
 
 // ROUTES
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -36,10 +43,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
-  return res.send('API Ready');
-})
-require('./config/passport')
+
+require('./config/passport');
 
 let users   = require('./routes/users');
 let events  = require('./routes/events');
@@ -48,13 +53,16 @@ let companies  = require('./routes/companies');
 let devices  = require('./routes/devices');
 let checkins  = require('./routes/checkins');
 let tickets  = require('./routes/tickets');
-app.use('/tickets', tickets);
-app.use('/checkins', checkins);
-app.use('/devices', devices);
-app.use('/companies', companies);
-app.use('/events', events);
-app.use('/invites', invites);
-app.use('/users', users);
+app.use('/api/tickets', tickets);
+app.use('/api/checkins', checkins);
+app.use('/api/devices', devices);
+app.use('/api/companies', companies);
+app.use('/api/events', events);
+app.use('/api/invites', invites);
+app.use('/api/users', users);
+
+let routes  = require('./routes');
+app.use('/', routes);
 
 function verifyToken(req, res, next) {
     // Get auth header value
@@ -76,5 +84,5 @@ function verifyToken(req, res, next) {
 }
 
 app.listen(3000, () => {
-    console.log('Server started on port 3000');
+    console.log('Server started on port http://localhost:3000');
 })

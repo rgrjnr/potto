@@ -53,8 +53,8 @@ router.post('/', [
         return res.status(422).json({ errors: errors.array() });
     }
 
-    const { body: { event } } = req;
-    const { payload: { id } } = req;
+    let { body: { event } } = req;
+    let { payload: { id } } = req;
 
     console.log(id);
 
@@ -65,7 +65,7 @@ router.post('/', [
 
     newEvent.save((err) => {
         if (err) { console.log(err) } else {
-            res.json({ newEvent });
+            res.json(newEvent);
         }
     });
 
@@ -105,6 +105,23 @@ router.post('/product', [
 
     });
 
+});
+
+
+// MODELS 
+let Invite = require('../models/invite');
+
+// ROUTES
+
+// SHOW ALL INVITES
+router.get('/:id/invites', auth.required, (req, res) => {
+    
+    
+    Invite.find({ 'event' : req.params.id }, (err, invites) => {
+        if (err) { console.log(err) } else {
+            res.json(invites);
+        }
+    });
 });
 
 

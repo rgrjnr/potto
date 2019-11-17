@@ -1,0 +1,43 @@
+<h1>Potto | Meus eventos</h1>
+
+<a href="/account/events/create">Criar evento</a>
+
+<div id="events">
+
+    <script type="text/template" id="event-item">
+        <div class="event" id="{slug}" index="{index}">
+            <h2><a href="/event/{slug}">{title}</a></h2>
+            <a href="account/events/edit/{slug}">Editar</a> 
+        </div>
+    </script>
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/index.js"></script>
+<script>
+
+    const render = async function () {
+
+        var template = document.getElementById('event-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+
+        const events = await getEvents();
+
+        console.log(events);
+
+        await events.forEach(function (event, index) {
+            listHtml += templateHtml.replace(/{title}/g, event.title)
+                .replace(/{slug}/g, event.slug)
+                .replace(/{index}/g, index)
+        })
+
+        document.getElementById("events").innerHTML = listHtml;
+    }
+
+
+    render();
+
+</script>

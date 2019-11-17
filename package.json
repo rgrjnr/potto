@@ -12,15 +12,20 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
+    "consolidate": "^0.15.1",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
     "express-messages": "^1.0.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.2.0",
+    "handlebars": "^4.5.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.9",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "express-reload": "^1.2.0"
   }
 }

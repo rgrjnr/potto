@@ -1,0 +1,79 @@
+<h1>Potto | Meus eventos</h1>
+
+<a href="/account/events/create">Criar evento</a> |  <a href="/account/events">Mostrar todos</a>
+
+<div id="events">
+
+    <script type="text/template" id="event-item">
+        <div class="event" id="{slug}" index="{index}">
+            <h2>{title}</h2>
+            <a href="/account/events/edit/{slug}">Editar</a> | 
+            <a href="/account/events/{id}/tickets">Ver ingressos disponíveis</a>
+    </script>
+
+
+
+        </div>
+    
+    <ul id="invites">
+        <script type="text/template" id="invite-item">
+        <li>{email} | {accepted}</li>
+    </script>
+    </ul>
+    
+        <h3>Adicionar expositores</h3>
+
+
+        <form class="prevent-default" id="invite" method="POST">
+            <input type="email" name="invited_user" id="invited_user" placeholder="E-mail para ser convidado" value="teste@teste.com" required>
+            <input type="hidden" name="event" id="event" placeholder="Nome do evento" value="{id}" required>
+            <input type="submit" value="Convidar">
+        </form>
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/index.js"></script>
+<script>
+    
+$(document).on("submit", "form", function(e){
+    e.preventDefault();
+    postInvite();
+    return false;
+});
+
+const render = async function () {
+    var template = document.getElementById('event-item');
+    var templateHtml = template.innerHTML;
+    var listHtml = "";
+    const slug = window.location.pathname.split('/event/')[1];
+    const event = await getEvents(slug);
+        listHtml += templateHtml.replace(/{title}/g, event.event.title)
+                                .replace(/{slug}/g, event.event.slug)
+                                .replace(/{id}/g, event.event._id);
+                    
+    let id = event.event._id;
+
+    $('#event').val(id);
+
+    console.log(event);
+    document.getElementById("events").innerHTML = listHtml;
+
+
+
+
+    template = document.getElementById('invite-item');
+    templateHtml = template.innerHTML;
+    listHtml = "";
+
+    const invites = await getInvites(id);
+    await invites.forEach(function (invite, index) {
+        listHtml += templateHtml.replace(/{email}/g, invite.invited_user)
+            .replace(/{accepted}/g, invite.accepted)
+    })
+     document.getElementById("invites").innerHTML = listHtml;
+}
+render();
+
+</script>

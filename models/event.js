@@ -18,7 +18,7 @@ let productSchema = mongoose.Schema({
 let eventSchema = mongoose.Schema({
     title: { type: String, required: true },
     slug: {
-        type : mongoose.Schema.Types.ObjectId,
+        type : String,
         default : mongoose.Types.ObjectId,
         index : { unique: true }
     },
