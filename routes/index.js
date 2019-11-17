@@ -11,5 +11,5 @@ router.get('/account/', (req, res) => { res.render('welcome') });
 router.get('/account/events', (req, res) => { res.render('events') });
 router.get('/event/:slug', (req, res) => { res.render('single_event', { slug: req.params.slug }) });
 router.get('/account/events/create', (req, res) => { res.render('create_event') });
-router.get('/account/events/:id/tickets', (req, res) => { res.render('create_event') });
+router.get('/account/events/:id/tickets', (req, res) => { res.render('event_tickets') });
 module.exports = router;

@@ -3,32 +3,47 @@
 <a href="/account/events/create">Criar evento</a> |  <a href="/account/events">Mostrar todos</a>
 
 <div id="events">
-
     <script type="text/template" id="event-item">
         <div class="event" id="{slug}" index="{index}">
             <h2>{title}</h2>
             <a href="/account/events/edit/{slug}">Editar</a> | 
             <a href="/account/events/{id}/tickets">Ver ingressos disponíveis</a>
     </script>
+</div>
+
+           product: {
+            name: $('#name').val(),
+            description: $('#description').val(),
+            price: $('#price').val(),
+            event: $('#event').val(),
+            quantity: $('#quantity').val()
+        }
 
 
+<h3>Criar Ingressos</h3>
 
-        </div>
-    
-    <ul id="invites">
-        <script type="text/template" id="invite-item">
-        <li>{email} | {accepted}</li>
-    </script>
-    </ul>
-    
-        <h3>Adicionar expositores</h3>
-
-
-        <form class="prevent-default" id="invite" method="POST">
-            <input type="email" name="invited_user" id="invited_user" placeholder="E-mail para ser convidado" value="teste@teste.com" required>
-            <input type="hidden" name="event" id="event" placeholder="Nome do evento" value="{id}" required>
-            <input type="submit" value="Convidar">
-        </form>
+<form  class="prevent-default">
+    <label>
+        Nome
+        <input type="text" name="name" id="name" placeholder="Nome do evento" value="" required><br>
+    </label>
+    <label>
+        Descrição
+        <input type="text" name="description" id="description"><br>
+    </label>
+    <label>
+        Valor
+        <input type="number" name="price" id="price" value="0"><br>
+    </label>
+    <label>
+        Ingressos disponíveis
+        <input type="number" name="quantity" id="quantity" value="0" required><br>
+    </label>
+    <label>
+        <input type="hidden" name="event" id="event"><br>
+    </label>
+    <input type="submit">
+</form>
 
 
 </div>
@@ -39,7 +54,8 @@
     
 $(document).on("submit", "form", function(e){
     e.preventDefault();
-    postInvite();
+    $('#event').val(window.location.pathname.split('/')[3]),
+    postProduct();
     return false;
 });
 
@@ -47,7 +63,7 @@ const render = async function () {
     var template = document.getElementById('event-item');
     var templateHtml = template.innerHTML;
     var listHtml = "";
-    const slug = window.location.pathname.split('/event/')[1];
+    const slug = window.location.pathname.split('/')[3];
     const event = await getEvents(slug);
         listHtml += templateHtml.replace(/{title}/g, event.event.title)
                                 .replace(/{slug}/g, event.event.slug)
@@ -74,6 +90,6 @@ const render = async function () {
     })
      document.getElementById("invites").innerHTML = listHtml;
 }
-render();
+render();*/
 
 </script>
