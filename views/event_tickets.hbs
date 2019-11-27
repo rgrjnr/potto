@@ -1,43 +1,57 @@
-<h1>Potto | Meus eventos</h1>
 
-<a href="/account/events/create">Criar evento</a> |  <a href="/account/events">Mostrar todos</a>
+<!DOCTYPE html>
+<html lang="pt">
 
-<div id="events">
-    <script type="text/template" id="event-item">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Painel | Potto</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="javascript:;" onclick="window.history.back();" class="potto-btn potto-btn--secondary" style="float: right;">Voltar</a>
+        <h1>Ingressos disponíveis</h1>
+
+<script type="text/template" id="event-item">
         <div class="event" id="{slug}" index="{index}">
             <h2>{title}</h2>
-            <a href="/account/events/edit/{slug}">Editar</a> | 
-            <a href="/account/events/{id}/tickets">Ver ingressos disponíveis</a>
-    </script>
+  </script>
+
+<div id="events">
 </div>
 
-           product: {
-            name: $('#name').val(),
-            description: $('#description').val(),
-            price: $('#price').val(),
-            event: $('#event').val(),
-            quantity: $('#quantity').val()
-        }
 
 
 <h3>Criar Ingressos</h3>
 
-<form  class="prevent-default">
+<form class="prevent-default">
     <label>
-        Nome
-        <input type="text" name="name" id="name" placeholder="Nome do evento" value="" required><br>
+        Nome do ingresso
+        <input type="text" name="name" id="name" placeholder="" value="" required><br>
     </label>
     <label>
-        Descrição
-        <input type="text" name="description" id="description"><br>
+        Descrição do ingresso
+        <textarea type="text" name="description" id="description"></textarea><br>
     </label>
     <label>
-        Valor
-        <input type="number" name="price" id="price" value="0"><br>
+        Valor (R$)
+        <input type="number" name="price" id="price" value="0" step="0.01"><br>
     </label>
     <label>
         Ingressos disponíveis
-        <input type="number" name="quantity" id="quantity" value="0" required><br>
+        <input type="number" name="quantity" id="quantity" value="0" step="1" required><br>
     </label>
     <label>
         <input type="hidden" name="event" id="event"><br>
@@ -48,48 +62,128 @@
 
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/index.js"></script>
-<script>
+<hr>
+
+<script type="text/template" id="ticket-item">
+    <tr>        
+        <td>{name}</td>
+        <td>{description}</td>
+        <td>R${price}</td>
+        <td>{sold}/{quantity}</td>
+        <td>{visible}</td>
+    </tr>
+</script>
+
+<h3>Produtos criados</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Quantidade</th>
+            <th>Visível</th>
+        </tr>
+    </thead>
+    <tbody id="tickets"></tbody>
     
-$(document).on("submit", "form", function(e){
-    e.preventDefault();
-    $('#event').val(window.location.pathname.split('/')[3]),
-    postProduct();
-    return false;
-});
+</table>
 
-const render = async function () {
-    var template = document.getElementById('event-item');
-    var templateHtml = template.innerHTML;
-    var listHtml = "";
-    const slug = window.location.pathname.split('/')[3];
-    const event = await getEvents(slug);
+<script>
+
+    $(document).on("submit", "form", async function (e) {
+        e.preventDefault();
+        const product = await postProduct();
+
+            console.log(product);
+            alert("Produto criado!");
+
+
+        return false;
+    });
+
+    const render = async function () {
+
+        // EVENT INFO
+        var template = document.getElementById('event-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+        const slug = window.location.pathname.split('/')[3];
+        const event = await getEvents(slug);
         listHtml += templateHtml.replace(/{title}/g, event.event.title)
-                                .replace(/{slug}/g, event.event.slug)
-                                .replace(/{id}/g, event.event._id);
-                    
-    let id = event.event._id;
+            .replace(/{slug}/g, event.event.slug)
+            .replace(/{id}/g, event.event._id);
 
-    $('#event').val(id);
+        let id = event.event._id;
 
-    console.log(event);
-    document.getElementById("events").innerHTML = listHtml;
+        $('#event').val(id);
 
+        document.getElementById("events").innerHTML = listHtml;
 
+        // SHOW TICKETS
+        var template = document.getElementById('ticket-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
 
+        event.event.products.forEach(function (product, index) {
+            listHtml += templateHtml.replace(/{description}/g, product.description)
+                .replace(/{name}/g, product.name)
+                .replace(/{price}/g, product.price)
+                .replace(/{quantity}/g, product.quantity + product.sold)
+                .replace(/{sold}/g, product.sold)
+                .replace(/{visible}/g, product.visible);
 
-    template = document.getElementById('invite-item');
-    templateHtml = template.innerHTML;
-    listHtml = "";
+        })
 
-    const invites = await getInvites(id);
-    await invites.forEach(function (invite, index) {
-        listHtml += templateHtml.replace(/{email}/g, invite.invited_user)
-            .replace(/{accepted}/g, invite.accepted)
-    })
-     document.getElementById("invites").innerHTML = listHtml;
-}
-render();*/
+        document.getElementById("tickets").innerHTML = listHtml;
+    }
+
+    render();
 
 </script>
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

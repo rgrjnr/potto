@@ -19,7 +19,7 @@ router.get('/', auth.optional, (req, res) => {
         if (err) { console.log(err); return res.status(500).json({ errors: "Unknown" }); }
 
         return res.json(tickets);
-    })
+    }).sort({ created_on: -1 });
 });
 
 // CREATE NEW TICKET
@@ -78,7 +78,7 @@ router.post('/', [
                     event.save((err) => {
                         if (err) { console.log(err) } else {
                             console.log(event);
-                            res.json({ newTicket });
+                            res.json(newTicket);
                         }
                     });
                 }

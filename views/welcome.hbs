@@ -1,14 +1,45 @@
-<h1>Potto | Meu Painel</h1>
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Painel | Potto</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="/account/events/create" class="potto-btn potto-btn--primary" style="float: right;">Criar evento</a>
+
+        <h1>Meu Painel</h1>
+        <div style="
+            display: flex;
+            align-items: center;
+            justify-content: stretch;
+        ">
+
+        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/events">Meus eventos</a>
+        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/tickets">Meus tickets</a>
+        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/profile">Minha conta</a>
+   
+        </div> </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
 
 
-<a href="/account/events">Meus eventos</a>
-<a href="/account/events/create">Criar evento</a>
-<br>
-<a href="/account/tickets">Meus tickets</a>
-<br>
-<br>
-<br>
-<a href="javascript:;" onclick="endSession()">Sair</a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/index.js"></script>
+</body>
+
+</html>

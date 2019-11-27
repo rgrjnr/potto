@@ -1,42 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt">
 
-<h1>Potto | Criar Evento</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Criar Evento | Potto</title>
 
-<form  class="prevent-default">
-    <label>
-        Nome
-        <input type="text" name="title" id="title" placeholder="Nome do evento" value="" required><br>
-    </label>
-    <label>
-        URL potto.com.br/event/
-        <input type="text" name="slug" id="slug"><br>
-    </label>
-    <label>
-        Descrição
-        <input type="text" name="description" id="description"><br>
-    </label>
-    <label>
-        Onde vai acontecer
-        <input type="text" name="address" id="address"><br>
-    </label>
-    <input type="submit">
-</form>
+    <link rel="stylesheet" href="/style.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/index.js"></script>
-<script>
-$('#title').on('change', function(){
-    $('#slug').val( slugify($('#title').val()))
-})
+        <h1>Criar Evento</h1>
 
-$(document).on("submit", "form", async function(e){
-    e.preventDefault();
-    const event = await postEvent();
+        <form class="prevent-default">
+            <label>
+                Nome
+                <input type="text" name="title" id="title" placeholder="Nome do evento" value="" required><br>
+            </label>
+            <label>
+                URL potto.com.br/event/
+                <input type="text" name="slug" id="slug"><br>
+            </label>
+            <label>
+                Descrição
+                <textarea name="description" id="description"></textarea>
+                <br>
+            </label>
+            <label>
+                Onde vai acontecer
+                <input type="text" name="address" id="address"><br>
+            </label>
+            <input type="submit" value="Criar evento">
+        </form>
 
-    if (event != false) {
-        window.location.href = '/event/' + event.slug;
-    }
 
-    return  false;
-});
-</script>
+        <script>
+            $('#title').on('change', function () {
+                $('#slug').val(slugify($('#title').val()))
+            })
+
+            $(document).on("submit", "form", async function (e) {
+                e.preventDefault();
+                const event = await postEvent();
+
+                if (event != false) {
+                    window.location.href = '/event/' + event.slug;
+                }
+
+                return false;
+            });
+        </script>
+
+
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+</body>
+
+</html>

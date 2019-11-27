@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Painel | Potto</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+
+
+<h1>Meus ingressos</h1>
+
+<script type="text/template" id="ticket-item">
+        <div class="ticket" id="ticket-{index}" style="margin: 32px; padding: 16px; display: flex; align-items: center; border: 3px grey solid;">
+            
+            <div id="qrcode-{index}" style=" margin-right: 32px;"></div>
+            
+            <div style=""><h3>{name}</h3>
+            <h2>{event}</h2>
+            <p>{fullname}</p>
+            </div>
+            
+        </div>
+
+        <button onclick="print('ticket-{index}')">Imprimir</button>
+    </script>
+
+<div id="tickets">
+</div>
+
+<div id="editor"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/index.js"></script>
+<script src="/qrcode.min.js"></script>
+<script>
+    const print = function(index) {
+        var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};
+        let doc = new jsPDF();
+        doc.fromHTML($('#'+index).html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('ingresso.pdf');
+    }
+
+    const render = async function () {
+
+        var template = document.getElementById('ticket-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+
+        const tickets = await getTickets();
+
+        console.log(tickets);
+
+        await tickets.forEach(function (ticket, index) {
+            listHtml = templateHtml
+                .replace(/{name}/g, ticket.info.name)
+                .replace(/{event}/g, ticket.info.event.title)
+                .replace(/{fullname}/g, ticket.client.fullname)
+                .replace(/{index}/g, index);
+
+            document.getElementById("tickets").insertAdjacentHTML('beforeend', listHtml);
+
+            new QRCode(document.getElementById("qrcode-" + index),
+                {
+                    text: ticket._id,
+                    width: 128,
+                    height: 128,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                }
+            );
+
+            console.log(document.getElementById("qrcode-" + index))
+        })
+
+
+
+
+    }
+
+
+    render();
+
+</script>
+
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,43 +1,72 @@
-<h1>Potto | Meus eventos</h1>
+<!DOCTYPE html>
+<html lang="pt">
 
-<a href="/account/events/create">Criar evento</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Painel | Potto</title>
 
-<div id="events">
 
-    <script type="text/template" id="event-item">
-        <div class="event" id="{slug}" index="{index}">
-            <h2><a href="/event/{slug}">{title}</a></h2>
-            <a href="account/events/edit/{slug}">Editar</a> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="/account/events/create" class="potto-btn potto-btn--primary" style="float: right;">Criar evento</a>
+        <h1>Meus eventos</h1>
+
+
+        <div id="events">
+            <script type="text/template" id="event-item">
+                <div class="event" id="{slug}" index="{index}" style="padding: 1rem; background: #F7F7FA; border-radius: 0.5rem; margin: 1rem 0;">
+                    <h2><a href="/event/{slug}">{title}</a></h2>
+                    <a href="account/events/edit/{slug}">Editar</a> 
+                </div>
+            </script>
         </div>
-    </script>
+
+        <script>
+
+            const render = async function () {
+
+                var template = document.getElementById('event-item');
+                var templateHtml = template.innerHTML;
+                var listHtml = "";
+
+                const events = await getEvents();
+
+                console.log(events);
+
+                await events.forEach(function (event, index) {
+                    listHtml += templateHtml.replace(/{title}/g, event.title)
+                        .replace(/{slug}/g, event.slug)
+                        .replace(/{index}/g, index)
+                })
+
+                document.getElementById("events").innerHTML = listHtml;
+            }
 
 
-</div>
+            render();
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/index.js"></script>
-<script>
+        </script>
 
-    const render = async function () {
+    </main>
 
-        var template = document.getElementById('event-item');
-        var templateHtml = template.innerHTML;
-        var listHtml = "";
-
-        const events = await getEvents();
-
-        console.log(events);
-
-        await events.forEach(function (event, index) {
-            listHtml += templateHtml.replace(/{title}/g, event.title)
-                .replace(/{slug}/g, event.slug)
-                .replace(/{index}/g, index)
-        })
-
-        document.getElementById("events").innerHTML = listHtml;
-    }
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
 
 
-    render();
+</body>
 
-</script>
+</html>

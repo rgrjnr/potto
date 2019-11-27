@@ -1,79 +1,180 @@
-<h1>Potto | Meus eventos</h1>
+<!DOCTYPE html>
+<html lang="pt">
 
-<a href="/account/events/create">Criar evento</a> |  <a href="/account/events">Mostrar todos</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Painel | Potto</title>
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="/account/events" class="potto-btn potto-btn--secondary" style="float: right;">Mostrar todos</a>
+        
 <div id="events">
 
     <script type="text/template" id="event-item">
         <div class="event" id="{slug}" index="{index}">
-            <h2>{title}</h2>
-            <a href="/account/events/edit/{slug}">Editar</a> | 
-            <a href="/account/events/{id}/tickets">Ver ingressos disponíveis</a>
+            <h1><small>Evento:</small><br> {title}</h1>
+            <a class="potto-btn potto-btn--secondary" href="/account/events/edit/{slug}">Editar</a> 
+            <a class="potto-btn potto-btn--secondary" href="/account/events/{slug}/tickets">Adicionar ingressos</a>
     </script>
 
-
-
-        </div>
-    
-    <ul id="invites">
-        <script type="text/template" id="invite-item">
-        <li>{email} | {accepted}</li>
-    </script>
-    </ul>
-    
-        <h3>Adicionar expositores</h3>
-
-
-        <form class="prevent-default" id="invite" method="POST">
-            <input type="email" name="invited_user" id="invited_user" placeholder="E-mail para ser convidado" value="teste@teste.com" required>
-            <input type="hidden" name="event" id="event" placeholder="Nome do evento" value="{id}" required>
-            <input type="submit" value="Convidar">
-        </form>
 
 
 </div>
 
+<hr>
+
+<ul id="invites">
+    <script type="text/template" id="invite-item">
+        <li>{email} | {accepted}</li>
+    </script>
+</ul>
+
+<h2>Adicionar expositores</h2>
+
+
+<form class="prevent-default" id="invite" method="POST">
+    <input type="email" name="invited_user" id="invited_user" placeholder="E-mail para ser convidado"
+        value="teste@teste.com" required>
+    <input type="hidden" name="event" id="event" placeholder="Nome do evento" value="{id}" required>
+    <input type="submit" value="Convidar">
+</form>
+
+
+</div>
+
+<hr>
+<h2>Ingressos disponíveis</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Vendidos</th>
+            <th>Visível</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tickets"></tbody>
+    
+</table>
+
+
+<script type="text/template" id="ticket-item">
+        <tr class="event" id="{slug}" index="{index}">
+            <td>{name}</td>
+            <td>{description}</td>
+            <td>R${price}</td>
+            <td>{sold} de {quantity}</td>
+            <td>Visível: {visible}</td>
+            <td><a class="potto-btn potto-btn--primary"  href="/checkout/product/{id}">Comprar</a></td>
+        </tr>
+    </script>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/index.js"></script>
 <script>
-    
-$(document).on("submit", "form", function(e){
-    e.preventDefault();
-    postInvite();
-    return false;
-});
 
-const render = async function () {
-    var template = document.getElementById('event-item');
-    var templateHtml = template.innerHTML;
-    var listHtml = "";
-    const slug = window.location.pathname.split('/event/')[1];
-    const event = await getEvents(slug);
+    $(document).on("submit", "form", function (e) {
+        e.preventDefault();
+        postInvite();
+        return false;
+    });
+
+    const render = async function () {
+
+       
+        var template = document.getElementById('event-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+        const slug = window.location.pathname.split('/event/')[1];
+        const event = await getEvents(slug);
         listHtml += templateHtml.replace(/{title}/g, event.event.title)
-                                .replace(/{slug}/g, event.event.slug)
-                                .replace(/{id}/g, event.event._id);
-                    
-    let id = event.event._id;
+            .replace(/{slug}/g, event.event.slug)
+            .replace(/{id}/g, event.event._id);
 
-    $('#event').val(id);
+        let id = event.event._id;
 
-    console.log(event);
-    document.getElementById("events").innerHTML = listHtml;
+        $('#event').val(id);
 
-
+        console.log(event);
+        document.getElementById("events").innerHTML = listHtml;
 
 
-    template = document.getElementById('invite-item');
-    templateHtml = template.innerHTML;
-    listHtml = "";
+        // SHOW INVITES
+ if (_TOKEN != null) {
+        template = document.getElementById('invite-item');
+        templateHtml = template.innerHTML;
+        listHtml = "";
 
-    const invites = await getInvites(id);
-    await invites.forEach(function (invite, index) {
-        listHtml += templateHtml.replace(/{email}/g, invite.invited_user)
-            .replace(/{accepted}/g, invite.accepted)
-    })
-     document.getElementById("invites").innerHTML = listHtml;
-}
-render();
+        const invites = await getInvites(id);
+        await invites.forEach(function (invite, index) {
+            listHtml += templateHtml.replace(/{email}/g, invite.invited_user)
+                .replace(/{accepted}/g, invite.accepted)
+        })
+        document.getElementById("invites").innerHTML = listHtml;
+ }
+
+        // SHOW TICKETS
+        var template = document.getElementById('ticket-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+
+        event.event.products.forEach(function (product, index) {
+            listHtml += templateHtml.replace(/{description}/g, product.description)
+                .replace(/{name}/g, product.name)
+                .replace(/{price}/g, product.price)
+                .replace(/{quantity}/g, product.quantity)
+                .replace(/{sold}/g, product.sold)
+                .replace(/{id}/g, product._id)
+                .replace(/{visible}/g, product.visible);
+
+        })
+
+        document.getElementById("tickets").innerHTML = listHtml;
+    }
+
+    render();
 
 </script>
+
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

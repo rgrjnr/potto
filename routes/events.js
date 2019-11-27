@@ -18,7 +18,7 @@ router.get('/', auth.required, (req, res) => {
         if (err) { console.log(err) } else {
             res.json(events);
         }
-    });
+    }).sort({ created_on: -1 });
 
 });
 
@@ -34,8 +34,7 @@ router.get('/:slug', auth.optional, (req, res) => {
         Company.find({event: event._id}, (err, companies) => {
             console.log(companies);
             event.companies = companies;
-            res.json({event, companies});
-            return companies;
+            return res.json({event, companies});
         });
 
     });
@@ -108,6 +107,30 @@ router.post('/product', [
 });
 
 
+//GET PRODUCT
+router.get('/product/:id', [
+    auth.optional
+], (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    Event.findOne( {'products._id': req.params.id } , (err, event) => {
+        //Checa por erros
+        if (err) { console.log(err);  return res.status(401).json({ errors: "Not Authorized" }); }
+        
+        //Verifica se o invite existe
+        if (event == undefined) { return res.status(401).json({ errors: "Not Authorized" }); }
+
+        const product = event.products.find(product => product._id == req.params.id);
+
+        return res.json(product);
+    }).sort({ created_on: -1 });
+
+});
+
 // MODELS 
 let Invite = require('../models/invite');
 
@@ -121,7 +144,7 @@ router.get('/:id/invites', auth.required, (req, res) => {
         if (err) { console.log(err) } else {
             res.json(invites);
         }
-    });
+    }).sort({ created_on: -1 });
 });
 
 

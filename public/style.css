@@ -1,0 +1,194 @@
+@import url("https://use.typekit.net/duy3xbr.css");
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #F7F7FA;
+}
+
+a {
+    color: #36366E;
+}
+
+body {
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    color: #42424F;
+    margin-top: 2rem;
+
+    font-family: 'poynter-gothic-text', sans-serif;
+}
+
+main {
+    background: white;
+    padding: 2rem;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+
+footer {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 0;
+    color: #36366E;
+    font-family: 'parisine-plus-std-gris', sans-serif;
+    font-weight: 700;
+}
+
+.potto-logo {
+    margin: 1rem;
+    height: 2rem;
+    width: auto;
+}
+
+.potto-btn, input[type=submit] {
+    padding: .5rem 2rem;
+    border-radius: 0.225rem;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    border: none;
+    
+    font-family: 'poynter-gothic-text', sans-serif;
+}
+
+.potto-btn--primary, input[type=submit] {
+    background-color: #EA6D36;
+    color: white;
+}
+
+.potto-btn--secondary {
+    background-color: #F0F0F5;
+    color: #727282;
+}
+
+.potto-btn--fix-height {
+    height: 39px;
+}
+
+input[type=text],input[type=number],input[type=password],input[type=email],textarea ,select{
+    background-color: #F7F7FA;
+    border: 2px solid #F0F0F5;
+    color: #9393A3;
+    font-family: 'poynter-gothic-text', sans-serif;
+    font-size: 1rem;
+    border-radius: 0.225rem;
+    padding: .5rem 0.75rem;
+    display: block;
+}
+
+input[type=text]:focus, input[type=number]:focus, input[type=password]:focus, select:focus, input[type=email]:focus, textarea:focus {
+    border-color: #292970;
+    outline: none;
+    color: #42424F;
+}
+
+
+textarea {
+    min-width: 250px;
+    resize: vertical;
+}
+
+label {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #727282;
+}
+
+hr {
+    border: 1px solid #F7F7FA;
+    margin: 1.5rem 0;
+}
+
+fieldset {
+    
+    border: 3px solid #F7F7FA;
+    border-radius: 0.25rem;
+    margin: 3rem 0;
+    font-size: 1.5rem;
+    
+    color: #36366E;
+}
+
+/*h1:before {
+    content: '';
+    display: inline-block;
+    background-image: url(/arrow.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 1rem;
+    height: 1.25rem;
+    cursor: pointer;  
+    margin-right: 1rem;
+}*/
+
+
+
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+  table * {
+    position: relative;
+  }
+  table td, table th {
+    padding-left: 8px;
+  }
+  table thead tr {
+    height: 40px;
+    background: #42424F;
+  }
+  table tbody tr {
+    height: 50px;
+  }
+  table tbody tr:last-child {
+    border: 0;
+  }
+  table td, table th {
+    text-align: left;
+  }
+  table td.l, table th.l {
+    text-align: right;
+  }
+  table td.c, table th.c {
+    text-align: center;
+  }
+  table td.r, table th.r {
+    text-align: center;
+  }
+  
+  
+  th{
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #F7F7FA;
+  }
+  
+  tbody tr {
+    font-size: 15px;
+    color: #42424F;
+    line-height: 1.2;
+    font-weight: unset;
+  }
+  
+  tbody tr:hover {
+    color: #555555;
+    background-color: #F0F0F5;
+    cursor: pointer;
+  }

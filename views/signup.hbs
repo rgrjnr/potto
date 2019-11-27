@@ -1,10 +1,38 @@
-<h1>Potto | Criar conta</h1>
+<!DOCTYPE html>
+<html lang="pt">
 
-<form onsubmit="register(event)">
-    <input type="email" name="email" id="email" placeholder="E-mail" value="teste@teste.com" required>
-    <input type="password" name="password" id="password" placeholder="Senha" value="12345678" required>
-    <input type="submit">
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Potto</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="index.js"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body style="max-width: 300px; text-align: center;">
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <h1>Criar conta</h1>
+
+        <form onsubmit="register(event)">
+            <input type="email" name="email" id="email" placeholder="E-mail" value="" required>
+            <br><input type="password" name="password" id="password" placeholder="Senha" value="" required>
+            <br><input type="submit">
+        </form>
+    </main>
+
+    <footer>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+</body>
+
+</html>
