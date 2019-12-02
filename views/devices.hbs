@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dispositivos | Potto</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+        <h1>Dispositivos</h1>
+
+        <script type="text/template" id="device-item">
+
+            <tr id="{id}" class="device-row">
+                <td><div style="width: .5rem; height: .5rem; border-radius: 50%; background: {active};"></div></td>
+                <td>{id}</td>
+                <td>{event}</td>
+                <td>{company}</td>
+            </tr>
+        </script>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Evento</th>
+                    <th>Empresa</th>
+                </tr>
+            </thead>
+            <tbody id="devices">
+
+            </tbody>
+        </table>
+
+        <script>
+
+            const render = async function () {
+
+                var template = document.getElementById('device-item');
+                var templateHtml = template.innerHTML;
+                var listHtml = "";
+
+                const devices = await getDevices();
+
+                await devices.forEach(function (device, index) {
+
+                    let color = device.active ? "#0FAF7E" : "#F5585D";
+
+
+                    listHtml += templateHtml.replace(/{id}/g, device._id)
+                        .replace(/{event}/g, device.event)
+                        .replace(/{company}/g, device.company)
+                        .replace(/{active}/g, color)
+                })
+
+                document.getElementById("devices").innerHTML = listHtml;
+
+                
+            $(".device-row").click(function() {
+                $('#id').val($(this)[0].id);
+            })
+            }
+
+
+            render();
+
+        </script>
+
+
+        <hr>
+
+        <!--
+        <h1>Criar Dispositivo</h1>
+
+        <form class="prevent-default">
+            <input type="submit" value="Criar dispositivo">
+        </form>
+
+
+        <script>
+            $(document).on("submit", "form", async function (e) {
+                e.preventDefault();
+                const device = await postDevice();
+
+                console.log(device);
+
+                return false;
+            });
+        </script>
+        -->
+
+        <h1>Editar Dispositivo</h1>
+        <form class="prevent-default">
+                <label>
+        ID
+        <input type="text" name="id" id="id" placeholder="" value="" required><br>
+    </label>
+
+        <label>
+        Evento
+        <input type="text" name="event" id="event" placeholder="" value="" required><br>
+    </label>
+
+        <label>
+        Empresa
+        <input type="text" name="company" id="company" placeholder="" value="" required><br>
+    </label>
+            <input type="submit" value="Editar dispositivo">
+        </form>
+
+
+        <script>
+            $(document).on("submit", "form", async function (e) {
+                e.preventDefault();
+                const device = await putDevice($('#id').val());
+
+                console.log(device);
+
+                location.reload();
+
+                return false;
+            });
+
+        </script>
+
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+</body>
+
+</html>

@@ -24,7 +24,7 @@ router.get('/', auth.required, (req, res) => {
             if (err) { console.log(err) } else {
                 return res.json(checkins);
             }
-        });
+        }).sort({ created_on: -1 });
     });
 });
 
@@ -38,15 +38,15 @@ router.get('/new/:device/:ticket', auth.optional, (req, res) => {
 
         Ticket.findById(req.params.ticket, (err, ticket) => {
             if (err) { console.log(err); return res.status(401).json({ errors: "Unknown" }); }
-            if (device == null) { return res.status(404).json({ errors: "Ticket does not exist" }); }
+            if (ticket == null) { return res.status(404).json({ errors: "Ticket does not exist" }); }
     
             let checkin = new Checkin();
 
             checkin.device = req.params.device;
             checkin.ticket = req.params.ticket;
-            
+            checkin.event = device.event;
             checkin.company = device.company;
-            checkin.event = ticket.info.event.id;
+            
     
             checkin.save( (err, checkin) => {
                 if (err) { console.log(err); return res.status(500).json({ errors: "Unknown" }); } 

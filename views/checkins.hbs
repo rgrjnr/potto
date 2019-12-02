@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dispositivos | Potto</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+    <script src="/moment.min.js"></script>
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="javascript:;" onclick="render()" class="potto-btn potto-btn--secondary" style="float: right;">Atualizar</a>
+        
+
+        <h1>Checkins</h1>
+
+        <script type="text/template" id="checkin-item">
+
+            <tr id="{id}" class="checkin-row">
+                <td>{id}</td>
+                <td>Criado {created_on}</td>
+            </tr>
+        </script>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="checkins">
+
+            </tbody>
+        </table>
+
+        <script>
+moment.locale('pt-br');    
+            const render = async function () {
+
+                var template = document.getElementById('checkin-item');
+                var templateHtml = template.innerHTML;
+                var listHtml = "";
+
+                const checkins = await getCheckins();
+
+                await checkins.forEach(function (checkin, index) {
+
+                    listHtml += templateHtml.replace(/{id}/g, checkin._id)
+                        .replace(/{created_on}/g, moment(checkin.created_on).fromNow())
+                })
+
+                document.getElementById("checkins").innerHTML = listHtml;
+
+            }
+
+
+            render();
+
+        </script>
+
+
+
+        <!--
+        <h1>Criar Dispositivo</h1>
+
+        <form class="prevent-default">
+            <input type="submit" value="Criar dispositivo">
+        </form>
+
+
+        <script>
+            $(document).on("submit", "form", async function (e) {
+                e.preventDefault();
+                const device = await postDevice();
+
+                console.log(device);
+
+                return false;
+            });
+        </script>
+        -->
+
+
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+</body>
+
+</html>

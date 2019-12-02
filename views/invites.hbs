@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meus invites | Potto</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/index.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <a href="/account" title="Voltar para Meu Painel"><img src="/logo.svg" alt="Potto" class="potto-logo"></a>
+
+    <main>
+
+        <a href="javascript:;" onclick="window.history.back();" class="potto-btn potto-btn--secondary" style="float: right;">Voltar</a>
+        
+        <h1>Ingressos disponíveis</h1>
+
+<script type="text/template" id="event-item">
+        <div class="event" id="{slug}" index="{index}">
+            <h2>{title}</h2>
+  </script>
+
+<div id="events">
+    
+</div>
+
+
+
+<h3>Criar empresa</h3>
+
+<form class="prevent-default">
+    <label>
+        ID do invite
+        <input type="text" name="id" id="id" placeholder="" value="" required><br>
+    </label>
+    <label>
+        Nome da empresa
+        <input type="text" name="company" id="company"><br>
+    </label>
+    <input type="submit">
+</form>
+
+
+</div>
+
+<hr>
+
+<script type="text/template" id="invite-item">
+    <tr id="{id}" class="invite-row">
+                <td><div style="width: .5rem; height: .5rem; border-radius: 50%; background: {active};"></div></td>
+                <td>{created_on}</td>
+        <td>{event}</td>
+        <td>{id}</td>
+    </tr>
+</script>
+
+<h3>Invites recebidos</h3>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Criado em</th>
+            <th>Evento</th>
+            <th>Id do Invite</th>
+        </tr>
+    </thead>
+    <tbody id="invites"></tbody>
+    
+</table>
+
+<script>
+
+    $(document).on("submit", "form", async function (e) {
+        e.preventDefault();
+        const company = await postCompany();
+
+            console.log(company);
+            alert("Empresa criada!");
+            location.reload();
+
+
+        return false;
+    });
+
+    const render = async function () {
+
+        // SHOW INVITES
+        var template = document.getElementById('invite-item');
+        var templateHtml = template.innerHTML;
+        var listHtml = "";
+
+        const invites = await getInvites();
+
+        invites.forEach(function (invite, index) {
+            let color = invite.accepted ? "#0FAF7E" : "#F5585D";
+
+            let date = new Date(invite.created_on);
+
+            listHtml += templateHtml.replace(/{created_on}/g, date.toDateString()) 
+                .replace(/{event}/g, invite.event)
+                .replace(/{active}/g, color)
+                .replace(/{id}/g, invite._id);
+
+        })
+
+        document.getElementById("invites").innerHTML = listHtml;
+
+        $(".invite-row").click(function() {
+                $('#id').val($(this)[0].id);
+            })
+    }
+
+    render(); 
+
+</script>
+    </main>
+
+    <footer>
+        <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
+        <p><small>2019 © Potto</small></p>
+    </footer>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

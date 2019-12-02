@@ -14,4 +14,7 @@ router.get('/account/events/create', (req, res) => { res.render('create_event') 
 router.get('/account/events/:id/tickets', (req, res) => { res.render('event_tickets') });
 router.get('/checkout/product/:id', (req, res) => { res.render('checkout') });
 router.get('/account/tickets', (req, res) => { res.render('tickets') });
+router.get('/account/devices', (req, res) => { res.render('devices') });
+router.get('/account/checkins', (req, res) => { res.render('checkins') });
+router.get('/account/invites', (req, res) => { res.render('invites') });
 module.exports = router;

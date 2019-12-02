@@ -48,7 +48,7 @@
 
 <form class="prevent-default" id="invite" method="POST">
     <input type="email" name="invited_user" id="invited_user" placeholder="E-mail para ser convidado"
-        value="teste@teste.com" required>
+        value="" required>
     <input type="hidden" name="event" id="event" placeholder="Nome do evento" value="{id}" required>
     <input type="submit" value="Convidar">
 </form>
@@ -86,10 +86,6 @@
         </tr>
     </script>
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/index.js"></script>
 <script>
 
     $(document).on("submit", "form", function (e) {
@@ -141,8 +137,8 @@
             listHtml += templateHtml.replace(/{description}/g, product.description)
                 .replace(/{name}/g, product.name)
                 .replace(/{price}/g, product.price)
-                .replace(/{quantity}/g, product.quantity)
-                .replace(/{sold}/g, product.sold)
+                .replace(/{quantity}/g, product.quantity + product.sold)
+                .replace(/{sold}/g, product.sold )
                 .replace(/{id}/g, product._id)
                 .replace(/{visible}/g, product.visible);
 

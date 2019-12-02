@@ -403,3 +403,212 @@ const postTicket = async function () {
     }
 
 }
+
+
+
+
+
+
+// ==================================================
+// DEVICES
+// ==================================================
+
+const getDevices = async function () {
+
+    try {
+
+        const res = await $.ajax({
+            type: 'GET',
+            url: '/api/devices/',
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}
+
+
+const postDevice = async function () {
+
+    try {
+        const res = await $.ajax({
+            type: 'POST',
+            url: '/api/devices',
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}
+
+
+
+const putDevice = async function (id) {
+
+    let req = {
+        device: {
+            company: $('#company').val(),
+            event: $('#event').val(),
+        }
+    };
+
+    try {
+        const res = await $.ajax({
+            type: 'PUT',
+            url: '/api/devices/' + id,
+            data: JSON.stringify(req),
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================================================
+// COMPANIES
+// ==================================================
+
+
+const getCompanies = async function () {
+
+    try {
+
+        const res = await $.ajax({
+            type: 'GET',
+            url: '/api/companies/',
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}
+
+const postCompany = async function () {
+
+    let req = {
+        company: {
+            name: $('#company').val(),
+            invite: $('#id').val(),
+        }
+    };
+
+    try {
+        const res = await $.ajax({
+            type: 'POST',
+            url: '/api/companies',
+            data: JSON.stringify(req),
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}
+
+
+
+
+// ==================================================
+// CHECKINS
+// ==================================================
+
+
+const getCheckins = async function () {
+
+    try {
+
+        const res = await $.ajax({
+            type: 'GET',
+            url: '/api/checkins/',
+            dataType: 'json',
+            encode: true,
+            processData: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader("Authorization", `Token ${_TOKEN}`);
+            }
+        });
+
+        return res;
+
+    } catch (err) {
+        alert(err.responseText);
+        console.log(err);
+        return false;
+    }
+
+}

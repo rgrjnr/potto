@@ -21,15 +21,33 @@
         <h1>Meu Painel</h1>
         <div style="
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: stretch;
         ">
 
-        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/events">Meus eventos</a>
-        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/tickets">Meus tickets</a>
-        <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/profile">Minha conta</a>
-   
-        </div> </main>
+            <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/events">
+                <img src="/ico-eventos.svg" alt="" width="100px">
+                <br>Meus eventos
+            </a>
+            <a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/tickets">
+                <img src="/ico-ingressos.svg" alt="" width="100px" style="padding-bottom: .5rem;">
+                <br>Meus ingressos
+            </a>
+            <!--a style="flex: 1; padding: 3rem; text-align: center; display: block" href="/account/profile">
+                <img src="/ico-conta.svg" alt="" width="100px">
+                Minha conta
+            </a-->
+
+        </div>
+
+        <hr>
+        <center>
+        <h3>Avançado</h3>
+            <a href="/account/devices">Ver dispositivos</a> | 
+            <a href="/account/invites">Ver invites</a> | 
+            <a href="/account/checkins">Ver checkins</a>
+</center>
+    </main>
 
     <footer>
         <small><a href="javascript:;" onclick="endSession()">Sair</a></small>
